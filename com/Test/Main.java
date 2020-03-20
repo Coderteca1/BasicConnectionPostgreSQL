@@ -13,7 +13,6 @@ import com.Conexion.Conexion;
  *
  */
 public class Main {
-
 	/**
 	 * @param args
 	 */
@@ -21,13 +20,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Conexion c = null;
 		try {
-			c = Conexion.getInstans("ContraseÒa", "NombreBaseDeDatos");
-			c.injectionQuery("insert into esquema.tablaNombre values (?,?,?,?);", pst -> {
-				pst.setString(1, "dbvuksdfbvjkdfs");// Tipo de dato - Dato
-				pst.setString(2, "Tacos al pastor");// Tipo de dato - Dato
-				pst.setFloat(3, 60);// Tipo de dato - Dato
-				pst.setFloat(4, 70);// Tipo de dato - Dato
-			});
+			c = Conexion.getInstans("Contrase√±a", "NombreBaseDeDatos");
 			c.closeConnection();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
