@@ -16,7 +16,7 @@ import java.util.List;
  * @author Zona Programable.
  * 
  * 
- *         Patron de diseño: singleton.
+ *         Patron de diseÃ±o: singleton.
  * 
  * 
  *         Ten mucho cuidado al usar esta clase para realizar las conexiones, no
@@ -130,6 +130,7 @@ public class Conexion {
 	 * @return Matriz con todas las filas correspondientes a los valores
 	 *         consultados.
 	 * @throws SQLException Ocurrio unproblema al consultar los datos.
+	 * @deprecated
 	 */
 	public Object[][] getValues(String sql, String... campos) throws SQLException {
 		String fields = Arrays.toString(campos).replace("[", "").replace("]", "");
@@ -154,8 +155,37 @@ public class Conexion {
 		return values;
 	}
 
+	/**
+	 * @param sql   Instruccion en sql por ejemeplo<br>
+	 *              Select name,fistName from baseDeDatsi.tabla;
+	 * @param rslst Nos servira para definar el "formato" a la hora de pedir los
+	 *              datos.
+	 * @return Matriz con todas las filas correspondientes a los valores
+	 *         consultados.
+	 * @throws SQLException Ocurrio unproblema al consultar los datos.
+	 */
+	public Object[][] getValues(String sql, BodyResulSet rslst) throws SQLException {
+		this.preStatemant = this.conexion.prepareStatement(sql);
+		ResultSet rsl = this.preStatemant.executeQuery();
+
+		List<Object[]> rows = new ArrayList<Object[]>();// Conjunto de filas.
+
+		while (rsl.next()) {
+			Object[] row = rslst.body(rsl);
+			rows.add(row);
+		}
+		Object[][] values = new Object[rows.size()][];
+		for (int i = 0; i < rows.size(); i++) {
+			values[i] = rows.get(i);
+		}
+		rows.clear();
+		rows = null;
+		return values;
+	}
+	
+	
 	public void closeConnection() throws SQLException {
-		// verifica que la conexión esté activa
+		// verifica que la conexiÃ³n estÃ© activa
 		if (this.conexion != null) {
 			this.conexion.close();
 		}
